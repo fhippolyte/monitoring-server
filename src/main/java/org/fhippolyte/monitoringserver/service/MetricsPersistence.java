@@ -1,7 +1,11 @@
 package org.fhippolyte.monitoringserver.service;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.fhippolyte.monitoringserver.domain.Metrics;
 
@@ -28,12 +32,26 @@ public class MetricsPersistence {
 		return instance;
 	}
 	
-	public Metrics getMetrics(String type){
-		return this.metricsMap.get(type);
+	public List<Metrics> getAllMetrics(){
+
+		List<Metrics> ret = new ArrayList<Metrics>(); 
+		
+		Set<String> cles = metricsMap.keySet();
+		Iterator<String> it = cles.iterator();
+		while (it.hasNext()){
+		   String id = it.next();
+		   ret.add(this.metricsMap.get(id));
+		}
+		
+		return ret;
 	}
 	
-	public void addMetrics(String type, Metrics metrics){
-		this.metricsMap.put(type, metrics);
+	public Metrics getMetrics(String id){
+		return this.metricsMap.get(id);
+	}
+	
+	public void addMetrics(String id, Metrics metrics){
+		this.metricsMap.put(id, metrics);
 	}
 	
 	public void setSecurityKey(String key) {
